@@ -1,0 +1,31 @@
+{
+  "name": "homebridge-hap-usb-relay",
+  "version": "1.0.0",
+  "description": "HAP USB Relay plugin for homebridge: https://github.com/nfarina/homebridge",
+  "license": "MIT",
+  "scripts": {
+    "release": "release-it"
+  },
+  "keywords": [
+    "homebridge-plugin",
+    "HAP USB Relay",
+    "HAP Relay",
+    "Denkovic"
+  ],
+  "engines": {
+    "node": ">=7.6.0",
+    "homebridge": ">=0.2.0"
+  },
+  "author": {
+    "name": "GreyPeter"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:GreyPeter/homebridge-hap-usb-relay.git"
+  },
+  "dependencies": {
+    "node-hid": "^0.6"
+  },
+  "devDependencies": {
+  }
+}

@@ -1,0 +1,29 @@
+{
+    "bridge": {
+        "name": "HomebridgeDebug",
+        "username": "CC:22:3D:E3:CE:04",
+        "port": 51802,
+        "pin": "031-45-104"
+    },
+
+    "description": "This is a configuration file to test HAPrelayPlatform.",
+
+    "accessories":
+    [
+      {
+      "accessory":"HapUsbRelay",
+      "name":"USB Relay",
+      "doorRelayNumber": 1,
+      "doorSwitchPressTimeInMs": 1000,
+      "doorSwitchValue": 1,
+      "closedDoorGPIO": 4,
+      "closedDoorGPIOValue": 1,
+      "openDoorGPIO": 5,
+      "openDoorGPIOValue": 1,
+      "doorPollInMs": 4000,
+      "doorOpensInSeconds": 14,
+      "lightRelayNumber":2,
+      "lightOff":1
+      }
+    ]
+}
