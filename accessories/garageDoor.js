@@ -68,17 +68,18 @@ garageDoor.prototype.getCurrentDoorState = function() {
    if (this.isClosed()) {
     currentState = DoorState.CLOSED;
     } else if (hasOpenSensor) {
-        currentState = this.isOpen() ? DoorState.OPEN : DoorState.STOPPED;
-      } else {
+      if (this.isOpen()) {
         currentState = DoorState.OPEN;
       }
-    } else {
+    }
+    return currentState;
+  } else {
     this.log("Current Door State =", this.doorStateToString(currentState));
     this.log("Door Opens in "+doorOpensInSeconds+" seconds");
     this.log("Press Time =",doorSwitchPressTimeInMs)
   }
-    return currentState;
-  }
+  return currentState;
+}
 
 garageDoor.prototype.getTargetDoorState = function() {
   this.log("Garage Door Target =", this.doorStateToString(targetState));
