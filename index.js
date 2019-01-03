@@ -9,10 +9,9 @@ var doorState = 0;
 const CONFIGURE = 0x10;
 var init = [CONFIGURE,0,0,0,0xf0,0,0,0,0,0x67,0,0,0,0,0,0];
 
-//Vndor and Product IDs for th board
+//Vndor and Product IDs for the board
 const VENDOR = 0x04d8;
 const PRODUCT = 0x00df;
-
 
 module.exports = (homebridge) => {
   Service = homebridge.hap.Service;
@@ -59,7 +58,6 @@ function usbRelay(log, config) {
       "lightOff": config["lightOff"],
       "lightRelayNumber": config["lightRelayNumber"]
     }
-//    log("Light Parameters = ", light_parameters);
 
     //Connect to the relay device
     this.device = HIDdev.getDevice(VENDOR,PRODUCT);
@@ -92,11 +90,13 @@ function usbRelay(log, config) {
         .getCharacteristic(Characteristic.On)
         .on('get', this.getPowerState.bind(this))
         .on('set', this.setPowerState.bind(this));
+
+    // Start the Door State Monitor loop
     log("Start Door State Monitor");
-//    this.monitorDoorState.bind(this);
     setTimeout(this.monitorDoorState.bind(this), this.door_parameters.doorPollInMs);
 }
 
+// This function monitors the current door state every "doorPollInMs" milliseconds
 usbRelay.prototype.monitorDoorState = function() {
       if (doorState != garageDoor.getCurrentDoorState()) {
         doorState = garageDoor.getCurrentDoorState();

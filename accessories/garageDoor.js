@@ -16,7 +16,6 @@ var closedDoorGPIOValue;
 var wasClosed = true;
 var targetState = 1; //Closed
 var currentState = 1;
-//var doorSwitchPressTimeInMs;
 var DoorState;
 var operating = false;
 var obstructionDetected = false;
