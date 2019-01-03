@@ -3,7 +3,7 @@ var HIDdev = require('./utils/hiddev').HIDdev;
 const GarageDoor = require('./accessories/garageDoor.js').garageDoor;
 const GarageLight = require('./accessories/garageLight.js').garageLight;
 var process = require('process');
-var doorState = 0;
+var doorState = 1; // Closed
 
 //HID Commands
 const CONFIGURE = 0x10;
@@ -114,7 +114,8 @@ usbRelay.prototype.monitorDoorState = function() {
 
 usbRelay.prototype.getCurrentDoorState = function(callback) {
   this.log("Current Door State =",garageDoor.getCurrentDoorState());
-  callback(null,garageDoor.getCurrentDoorState());
+  //callback(null,garageDoor.getCurrentDoorState());
+  callback(null,doorState);
 }
 
 usbRelay.prototype.getTargetDoorState = function(callback) {
