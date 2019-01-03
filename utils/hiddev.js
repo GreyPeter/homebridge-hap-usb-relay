@@ -18,7 +18,7 @@ HIDdev.getDevice = function (vendor,product) {
   }
 
 HIDdev.read = function () {
-  console.log("Running read function");
+  //console.log("Running read function");
   //First send READ_ALL command
   var bytesSent = dev.write([0x80,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
   //Now get response
