@@ -3,6 +3,7 @@ var HIDdev = require('./utils/hiddev').HIDdev;
 const GarageDoor = require('./accessories/garageDoor.js').garageDoor;
 const GarageLight = require('./accessories/garageLight.js').garageLight;
 var process = require('process');
+var doorState = 0;
 
 //HID Commands
 const CONFIGURE = 0x10;
@@ -97,15 +98,16 @@ function usbRelay(log, config) {
 }
 
 usbRelay.prototype.monitorDoorState = function() {
-      var doorState = garageDoor.getCurrentDoorState();
-      this.log("[monitorDoorState] Door State =", garageDoor.doorStateToString(doorState));
-      this.garageDoorOpener.setCharacteristic(Characteristic.CurrentDoorState, doorState);
-      //this.log("[monitorDoorState] State =",this.garageDoorOpener);
+      if (doorState != garageDoor.getCurrentDoorState()) {
+        doorState = garageDoor.getCurrentDoorState();
+        this.garageDoorOpener.setCharacteristic(Characteristic.CurrentDoorState, doorState);
+        this.log("[monitorDoorState] Door State =", garageDoor.doorStateToString(doorState));
+      }
       var obstructed = garageDoor.getObstructionDetected();
       if (obstructed) {
+        this.garageDoorOpener.setCharacteristic(Characteristic.ObstructionDetected, obstructed);
         this.log("GARAGE DOOR IS OBSTRUCTED");
       }
-      this.garageDoorOpener.setCharacteristic(Characteristic.ObstructionDetected, obstructed);
       setTimeout(this.monitorDoorState.bind(this), this.door_parameters.doorPollInMs);
     }
 
