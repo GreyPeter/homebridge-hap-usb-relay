@@ -16,7 +16,7 @@ var closedDoorGPIOValue;
 var wasClosed = true;
 var targetState = 1; //Closed
 var currentState = 1;
-var doorSwitchPressTimeInMs;
+//var doorSwitchPressTimeInMs;
 var DoorState;
 var operating = false;
 var obstructionDetected = false;
@@ -73,11 +73,11 @@ garageDoor.prototype.getCurrentDoorState = function() {
       } else {
         currentState = DoorState.OPEN;
       }
-      if (currentState == DoorState.STOPPED) {
-        obstructionDetected = true;
-      }
-    }
+    } else {
     this.log("Current Door State =", this.doorStateToString(currentState));
+    this.log("Door Opens in "+doorOpensInSeconds+" seconds");
+    this.log("Press Time =",doorSwitchPressTimeInMs)
+  }
     return currentState;
   }
 
@@ -98,6 +98,7 @@ garageDoor.prototype.setTargetDoorState = function(target) {
         currentState = DoorState.CLOSING;
     }
     this.log("Garage Door State =", this.doorStateToString(currentState));
+    this.log("Door Opens in "+doorOpensInSeconds+" seconds");
     setTimeout(this.setFinalDoorState.bind(this), doorOpensInSeconds * 1000);
     this.switchOn();
     return targetState;
@@ -161,14 +162,14 @@ garageDoor.prototype.setFinalDoorState = function() {
 }
 
 garageDoor.prototype.getObstructionDetected = function() {
-  this.log("Garage Door Obstruction Detected = ",(obstructionDetected ? "TRUE":"FALSE"))
+if (TEST) this.log("Garage Door Obstruction Detected = ",(obstructionDetected ? "TRUE":"FALSE"))
    return obstructionDetected; // 0=NO, 1=YES
 }
 
 garageDoor.prototype.readGPIO = function(pin) {
   var data = HIDdev.read();
   var result = data >> pin & 1;
-  this.log("GPIO " + pin + " is: " + result);
+  if (TEST) this.log("GPIO " + pin + " is: " + result);
   return result;
 }
 
@@ -200,8 +201,8 @@ garageDoor.prototype.isOpen = function() {
 
 garageDoor.prototype.switchOn = function() {
   var bytes = HIDdev.write(relay_on);
-  this.log("Turning on GarageDoor Relay");
-  setTimeout(this.switchOff.bind(this), this.doorSwitchPressTimeInMs);
+  this.log("Turning on GarageDoor Relay. Press Time =",doorSwitchPressTimeInMs);
+  setTimeout(this.switchOff.bind(this), doorSwitchPressTimeInMs);
 }
 
 garageDoor.prototype.switchOff = function() {
