@@ -20,7 +20,12 @@ HIDdev.getDevice = function (vendor,product) {
 HIDdev.read = function () {
   //console.log("Running read function");
   //First send READ_ALL command
-  var bytesSent = dev.write([0x80,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
+try {
+    var bytesSent = dev.write([0x80,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
+  } catch(err) {
+    console.log(err);
+    return 0;
+}
   //Now get response
   var data_read = dev.readTimeout(1000);
   return data_read[10];
